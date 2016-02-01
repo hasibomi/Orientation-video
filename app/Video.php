@@ -9,7 +9,7 @@ class Video extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title', 'description', 'order_number', 'slug', 'embed_co'];
+    protected $fillable = ['title', 'description', 'order_number', 'slug', 'embed_code'];
 
     /**
      * Relationship with `user_video` table.

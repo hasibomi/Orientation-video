@@ -50,6 +50,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('dashboard/videos', 'DashboardController@videos');
         Route::get('dashboard/video/add', 'VideoController@form');
         Route::get('dashboard/video/{slug}/view', 'VideoController@view');
+        Route::get('dashboard/video/{slug}/delete', 'VideoController@delete');
         Route::post('dashboard/video/store', 'VideoController@store');
     });
 });

@@ -5,6 +5,8 @@
 @stop
 
 @section('content')
+    @include('Partials.Event')
+
     <a href="{{ url('dashboard/video/add') }}" class="btn btn-success">
         <span class="glyphicon glyphicon-plus"></span> Add a video
     </a>
