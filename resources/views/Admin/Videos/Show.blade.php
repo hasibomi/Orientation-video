@@ -4,6 +4,10 @@
     <title>Videos | Dashboard</title>
 @stop
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables/dataTables.bootstrap.min.css') }}">
+@stop
+
 @section('content')
     @include('Partials.Event')
 
@@ -14,24 +18,39 @@
     <h3 class="page-header">Videos | Total videos: {{ $videos->count() }}</h3>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Order Number</th>
-                <th>Action</th>
-            </tr>
-
-            @foreach($videos as $video)
+        <table class="table table-bordered table-hover table-striped" id="video_table">
+            <thead>
                 <tr>
-                    <td width="20%"><a href="{{ url('dashboard/video/' . $video->id . '-' . $video->slug . '/view') }}">{{ $video->title }}</a></td>
-                    <td>{{ $video->description }}</td>
-                    <td>{{ $video->order_number }}</td>
-                    <td>
-                        <a href="{{ url('dashboard/video/' . $video->id . '-' . $video->slug . '/delete') }}">Delete</a>
-                    </td>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Order Number</th>
+                    <th>Action</th>
                 </tr>
-            @endforeach
+            </thead>
+
+            <tbody>
+                @foreach($videos as $video)
+                    <tr>
+                        <td width="20%"><a href="{{ url('dashboard/video/' . $video->id . '-' . $video->slug . '/view') }}">{{ $video->title }}</a></td>
+                        <td>{{ $video->description }}</td>
+                        <td>{{ $video->order_number }}</td>
+                        <td>
+                            <a href="{{ url('dashboard/video/' . $video->id . '-' . $video->slug . '/edit') }}">Edit</a>
+                            <a href="{{ url('dashboard/video/' . $video->id . '-' . $video->slug . '/delete') }}">Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
         </table>
     </div>
+@stop
+
+@section('js')
+    <script src="{{ asset('assets/js/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables/dataTables.bootstrap.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#video_table').dataTable();
+        });
+    </script>
 @stop

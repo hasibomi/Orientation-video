@@ -91,6 +91,64 @@ class VideoController extends Controller
     }
 
     /**
+     * Edit a video.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function edit($slug)
+    {
+        $slug = explode('-', $slug);
+        $id = $slug[0];
+
+        $video = $this->video->find($id);
+
+        if($video->count() > 0)
+        {
+            return view('Admin.Videos.Edit')
+                ->withVideo($video);
+        }
+
+        abort(404);
+    }
+
+    /**
+     * Update a video.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function update($slug)
+    {
+        // Validate input
+        $this->validate($this->request,[
+            'title' => 'required',
+            'description' => 'required',
+            'order_number' => 'required|integer',
+            'embed_code' => 'required'
+        ]);
+
+        $slug = explode('-', $slug);
+        $id = $slug[0];
+
+        $video = $this->video->find($id);
+
+        if($video->count() > 0)
+        {
+            $video->title = $this->request->input('title');
+            $video->description = $this->request->input('description');
+            $video->order_number = $this->request->input('order_number');
+            $video->embed_code = $this->request->input('embed_code');
+            $video->slug = str_slug($this->request->input('title'), '-');
+            $video->save();
+
+            return redirect('dashboard/videos')->withSuccess('Video updated');
+        }
+
+        abort(404);
+    }
+
+    /**
      * Delete a video.
      *
      * @param $slug
