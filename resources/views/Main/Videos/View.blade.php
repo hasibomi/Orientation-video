@@ -24,14 +24,12 @@
                 @endif
 
                 @if(Auth::user())
-                    @if(count($video->watchedVideo) > 0)
-                        @foreach($video->watchedVideo as $watchedVideo)
-                            @if($watchedVideo->user_id == Auth::user()->id)
-                                <a href="{{ url('video/' . $watchedVideo->id . '-' . $video->slug . '/unwatch') }}" class="btn btn-success">Unwatch</a>
-                            @else
-                                <a href="{{ url('video/' . $video->id . '-' . $video->slug . '/watch') }}" class="btn btn-success">Watch</a>
-                            @endif
-                        @endforeach
+                    <?php
+                        $watchedVideos = App\UserVideo::where('user_id', Auth::user()->id)
+                                                        ->where('video_id', $video->id);
+                    ?>
+                    @if($watchedVideos->count() > 0)
+                        <a href="{{ url('video/' . $watchedVideos->first()->id . '-' . $video->slug . '/unwatch') }}" class="btn btn-success">Unwatch</a>
                     @else
                         <a href="{{ url('video/' . $video->id . '-' . $video->slug . '/watch') }}" class="btn btn-success">Watch</a>
                     @endif
